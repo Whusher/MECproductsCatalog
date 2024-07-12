@@ -1,0 +1,242 @@
+{
+    "site_id": "MLM",
+    "seller": {
+        "id": 1181952285,
+        "nickname": "ANAYAANGEL20220818150820"
+    },
+    "country_default_time_zone": "GMT-05:00",
+    "paging": {
+        "total": 1,
+        "primary_results": 1,
+        "offset": 0,
+        "limit": 50
+    },
+    "results": [
+        {
+            "id": "MLM1765088088",
+            "title": "Tapa Distribucion Chevrolet V8 69-91 Cromada",
+            "condition": "used",
+            "thumbnail_id": "679383-MLM53317226531_012023",
+            "catalog_product_id": null,
+            "listing_type_id": "gold_special",
+            "permalink": "https://articulo.mercadolibre.com.mx/MLM-1765088088-tapa-distribucion-chevrolet-v8-69-91-cromada-_JM",
+            "buying_mode": "buy_it_now",
+            "site_id": "MLM",
+            "category_id": "MLM164718",
+            "domain_id": "MLM-VEHICLE_ENGINE_TIMING_COVERS",
+            "thumbnail": "http://http2.mlstatic.com/D_679383-MLM53317226531_012023-I.jpg",
+            "currency_id": "MXN",
+            "order_backend": 1,
+            "price": 1900,
+            "original_price": null,
+            "sale_price": null,
+            "available_quantity": 1,
+            "official_store_id": null,
+            "use_thumbnail_id": true,
+            "accepts_mercadopago": true,
+            "shipping": {
+                "store_pick_up": false,
+                "free_shipping": true,
+                "logistic_type": "xd_drop_off",
+                "mode": "me2",
+                "tags": [],
+                "benefits": null,
+                "promise": null,
+                "shipping_score": -1
+            },
+            "stop_time": "2043-01-09T04:00:00.000Z",
+            "seller": {
+                "id": 1181952285,
+                "nickname": "ANAYAANGEL20220818150820"
+            },
+            "attributes": [
+                {
+                    "id": "BRAND",
+                    "name": "Marca",
+                    "value_id": null,
+                    "value_name": "Chevrolet Performance",
+                    "attribute_group_id": "OTHERS",
+                    "attribute_group_name": "Otros",
+                    "value_struct": null,
+                    "values": [
+                        {
+                            "id": null,
+                            "name": "Chevrolet Performance",
+                            "struct": null,
+                            "source": 6808261514773724
+                        }
+                    ],
+                    "source": 6808261514773724,
+                    "value_type": "string"
+                },
+                {
+                    "id": "ITEM_CONDITION",
+                    "name": "Condición del ítem",
+                    "value_id": "2230581",
+                    "value_name": "Usado",
+                    "attribute_group_id": "OTHERS",
+                    "attribute_group_name": "Otros",
+                    "value_struct": null,
+                    "values": [
+                        {
+                            "id": "2230581",
+                            "name": "Usado",
+                            "struct": null,
+                            "source": 6808261514773724
+                        }
+                    ],
+                    "source": 6808261514773724,
+                    "value_type": "list"
+                },
+                {
+                    "id": "UNITS_PER_PACKAGE",
+                    "name": "Unidades por envase",
+                    "value_id": null,
+                    "value_name": "1",
+                    "attribute_group_id": "OTHERS",
+                    "attribute_group_name": "Otros",
+                    "value_struct": null,
+                    "values": [
+                        {
+                            "id": null,
+                            "name": "1",
+                            "struct": null,
+                            "source": 6808261514773724
+                        }
+                    ],
+                    "source": 6808261514773724,
+                    "value_type": "number"
+                }
+            ],
+            "installments": {
+                "quantity": 24,
+                "amount": 114.82,
+                "rate": 45.03,
+                "currency_id": "MXN"
+            },
+            "winner_item_id": null,
+            "catalog_listing": false,
+            "discounts": null,
+            "promotions": [],
+            "inventory_id": null
+        }
+    ],
+    "sort": {
+        "id": "relevance",
+        "name": "Más relevantes"
+    },
+    "available_sorts": [
+        {
+            "id": "price_asc",
+            "name": "Menor precio"
+        },
+        {
+            "id": "price_desc",
+            "name": "Mayor precio"
+        }
+    ],
+    "filters": [],
+    "available_filters": [
+        {
+            "id": "state",
+            "name": "Ubicación",
+            "type": "text",
+            "values": [
+                {
+                    "id": "TUxNUFFVRTc3ODg",
+                    "name": "Querétaro",
+                    "results": 1
+                }
+            ]
+        },
+        {
+            "id": "accepts_mercadopago",
+            "name": "Filtro por MercadoPago",
+            "type": "boolean",
+            "values": [
+                {
+                    "id": "yes",
+                    "name": "Con MercadoPago",
+                    "results": 1
+                }
+            ]
+        },
+        {
+            "id": "installments",
+            "name": "Pago",
+            "type": "text",
+            "values": [
+                {
+                    "id": "yes",
+                    "name": "En cuotas",
+                    "results": 1
+                }
+            ]
+        },
+        {
+            "id": "shipping",
+            "name": "Envío",
+            "type": "text",
+            "values": [
+                {
+                    "id": "mercadoenvios",
+                    "name": "Mercado Envíos",
+                    "results": 1
+                }
+            ]
+        },
+        {
+            "id": "has_pictures",
+            "name": "Filtro por publicaciones con imágenes",
+            "type": "boolean",
+            "values": [
+                {
+                    "id": "yes",
+                    "name": "Con fotos",
+                    "results": 1
+                }
+            ]
+        },
+        {
+            "id": "shipping_cost",
+            "name": "Costo de envío",
+            "type": "text",
+            "values": [
+                {
+                    "id": "free",
+                    "name": "Gratis",
+                    "results": 1
+                }
+            ]
+        },
+        {
+            "id": "ITEM_CONDITION",
+            "name": "Condición",
+            "type": "STRING",
+            "values": [
+                {
+                    "id": "2230581",
+                    "name": "Usado",
+                    "results": 1
+                }
+            ]
+        },
+        {
+            "id": "SHIPPING_ORIGIN",
+            "name": "Tipo de compra",
+            "type": "STRING",
+            "values": [
+                {
+                    "id": "10215068",
+                    "name": "Local",
+                    "results": 1
+                }
+            ]
+        }
+    ],
+    "pdp_tracking": {
+        "group": false,
+        "product_info": []
+    },
+    "user_context": null
+}
