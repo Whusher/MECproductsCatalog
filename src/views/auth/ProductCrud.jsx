@@ -1,27 +1,10 @@
 import { useState } from "react";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { subirImagen,borrarImagen } from "../../helpers/firebase/Config";
+import { useAuth } from "../../context/AuthContext";
+import { ProductServices } from "../../components/Endpoints";
 
-function initializeForm() {
-  return {
-    productName: "",
-    productPrice: "",
-    productDesc: "",
-    image1: null,
-    image2: null,
-    image3: null,
-    offert: false,
-    anioCompatibilityIni: 0,
-    anioCompatibilityFin: 0,
-    category: null,
-    brand: 0,
-    stock: 0,
-    motorCompatibility: '',
-    modelCompatibility: '',
-    facebookUri: "",
-    whatsappUri: "", //Get from context provider
-  };
-}
+
 
 const CATEGORIES =[
   { id: 1, nombre: "Cabezas de Motor" },
@@ -36,6 +19,28 @@ const CATEGORIES =[
 ];
 
 function ProductCRUD() {
+  //Product object initial state
+  const initializeForm = () =>{
+    return {
+      productName: "",
+      productPrice: "",
+      productDesc: "",
+      user: state.userToken,
+      image1: null,
+      image2: null,
+      image3: null,
+      offert: false,
+      anioCompatibilityIni: 0,
+      anioCompatibilityFin: 0,
+      category: null,
+      brand: 0,
+      stock: 0,
+      motorCompatibility: '',
+      modelCompatibility: '',
+      facebookUri: "",
+      whatsappUri: "4422380901", //Get from context provider
+    };
+  }
   const [products, setProducts] = useState([
     {
       id: 1,
@@ -94,6 +99,9 @@ function ProductCRUD() {
       anioAplicacion: "2010-2025",
     },
   ]);
+  //Context get
+  const {state} = useAuth();
+
   //Real necessary states
   const [productForm, setProductForm] = useState(initializeForm());
   const [showForm, setShowForm] = useState(false);
@@ -108,9 +116,28 @@ function ProductCRUD() {
     image3: "",
   });
 
-  const handlePresubmit = () => {
-
+  const handlePresubmit = async() => {
     console.log(productForm);
+    try{
+      const response = await fetch(`${ProductServices}/addProduct`,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(productForm)
+      });
+      if(response.ok){
+        const data = await response.json();
+        console.log(data);
+        alert('Producto Agregado Correctamente');
+      }else{
+        console.log('Something went wrong');
+      }
+    }catch(e){
+      console.log(e)
+    }finally{
+      console.log('Request finished')
+    }
   };
 
   const handleImageChange = async(e) => {
@@ -291,11 +318,12 @@ function ProductCRUD() {
                 type="checkbox"
                 className="h-6 w-6 mt-2 text-green-700 bg-green-400"
                 name="offert"
-                onChange={() =>
+                onChange={() =>{
                   setProductForm({
                     ...productForm,
                     ["offert"]: !productForm.offert,
                   })
+                  }
                 }
               />
             </div>
