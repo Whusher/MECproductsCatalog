@@ -5,55 +5,68 @@ import CardProduct from '../components/CardProduct';
 import SectionMain from '../components/filters/SectionMain';
 import { BarMenu } from '../utils/Icons';
 import { ProductServices } from '../components/Endpoints';
+import { useParams } from 'react-router-dom';
+
 function MainView() {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
+  const categoryId = useParams(); // Obtener categoryId de la URL
+
   const toggleSideBar = () => {
     setIsSideBarOpen(prev => !prev);
     console.log(isSideBarOpen);
   };
 
-  useEffect(()=>{
-    const getProducts = async() =>{
-      try{
-        const response = await 
-        fetch(`${ProductServices}/getProducts/a7588cee-3b3e-11ef-9913-08bfb870b1d5`,{ 
-          //We must use an user of shop selected in the context
-          headers:{
-            'Content-Type': 'application/json'
-          },
-          method: 'GET'
-        });
-        const data = await response.json();
-        console.log(data);
-        setProducts(data);
-      }catch(e){
-        console.log(e);
+  const getProducts = async () => {
+    console.log(categoryId.category)
+    try {
+      const response = await fetch(`${ProductServices}/getProducts/${categoryId.category}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user: "a7588cee-3b3e-11ef-9913-08bfb870b1d5"
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
+
+      const data = await response.json();
+      console.log(data);
+      setProducts(data);
+    } catch (error) {
+      console.error('Fetch error:', error);
     }
-    getProducts();
-  },[])
+  };
+  useEffect(() => {
+    console.log(categoryId);
+    // Solo llamar a getProducts si categoryId está disponible
+    if (categoryId) {
+      getProducts();
+    }
+  }, [categoryId]); // Ejecutar efecto cuando categoryId cambie
 
   return (
     <>
       <Header />
-      {/* Perform this way to check by category do not request all */}
-        <figure
-          className={`fixed top-4 left-1 z-50 bg-gray-800 text-white p-2 rounded-md ${isSideBarOpen ? 'hidden': ''}`}
-          onClick={toggleSideBar}
-        >
-          {BarMenu()}
-        </figure>
-        <SideBar isOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
-        <main className={`flex-grow transition-transform duration-300`}>
-          <SectionMain/>
-          {/* Otros contenidos de la página */}
-          <div className='flex flex-wrap justify-center md:justify-start md:mx-4 my-4 mx-0 p-5'>
-              {
-               products && products.map((producto, key) =><CardProduct key={key} data={producto}/> )
-              }
-          </div>
-        </main>
+      <figure
+        className={`fixed top-4 left-1 z-50 bg-gray-800 text-white p-2 rounded-md ${isSideBarOpen ? 'hidden' : ''}`}
+        onClick={toggleSideBar}
+      >
+        {BarMenu()}
+      </figure>
+      <SideBar isOpen={isSideBarOpen} toggleSideBar={toggleSideBar} />
+      <main className={`flex-grow transition-transform duration-300`}>
+        <SectionMain />
+        <div className='flex flex-wrap justify-center md:justify-start md:mx-4 my-4 mx-0 p-5'>
+          {Array.isArray(products) && products.map((producto, key) => (
+            <CardProduct key={key} data={producto} />
+          ))}
+        </div>
+      </main>
     </>
   );
 }

@@ -3,7 +3,33 @@ import ItemSeccion from "../helpers/ItemSeccion";
 import { Engine, Car, Tacometer, ManualTransmision, Closer } from "../utils/Icons";
 import { Link } from "react-router-dom";
 
-export default function SideBar({ isOpen, toggleSideBar }) {
+export default function SideBar({ isOpen, toggleSideBar}) {
+  const categories = [
+    { name: 'Motor', icon: Engine ,items: [
+      { name: 'Cabezas de motor', id: 1 },
+      { name: 'Arboles de levas', id: 2 },
+      { name: 'Alternadores', id: 3 },
+      { name: 'Cigueñales', id: 4 },
+      { name: 'Volantes de motor', id: 5 }
+    ]},
+    { name: 'Carroceria', icon: Car ,items: [
+      { name: 'Amortiguadores', id: 6 },
+      { name: 'Suspension completa', id: 7 },
+      { name: 'Flechas', id: 8 },
+      { name: 'Horquillas', id: 9 }
+    ]},
+    { name: 'Frenos', icon: Tacometer ,items: [
+      { name: 'Tambores', id: 10 },
+      { name: 'Rotores', id: 11 },
+      { name: 'Bombas de Freno', id: 12 }
+    ]},
+    { name: 'Extra', icon: ManualTransmision ,items: [
+      { name: 'Rines', id: 13 },
+      { name: 'Transmisiones', id: 14 }
+    ]}
+  ];
+
+
   return (
     <aside
       className={`bg-blacks fixed inset-y-0 left-0 z-50 w-72 my-4 ml-4 rounded-3xl transicionable transform ${
@@ -14,24 +40,20 @@ export default function SideBar({ isOpen, toggleSideBar }) {
       <div className="m-4">
         <h3 className="font-semibold text-2xl tracking-wider text-white font-elegant">SECCIONES</h3>
         <ul className="mb-4 flex flex-col gap-0">
-          <Seccions link="/" icon={Engine} title="MOTOR" />
-          <ItemSeccion title={'Cabezas de motor'} link={'/'} />
-          <ItemSeccion title={'arboles de levas'} link={'/'} />
-          <ItemSeccion title={'Alternadores'} link={'/'} />
-          <ItemSeccion title={'Cigueñales'} link={'/'} />
-          <ItemSeccion title={'Volantes de motor'} link={'/'} />
-          <Seccions link="/" icon={Car} title="CARROCERIA" />
-          <ItemSeccion title={'Amortiguadores'} link={'/'} />
-          <ItemSeccion title={'Suspension completa'} link={'/'} />
-          <ItemSeccion title={'Flechas'} link={'/'} />
-          <ItemSeccion title={'Horquillas'} link={'/'} />
-          <Seccions link="/" icon={Tacometer} title="FRENOS" />
-          <ItemSeccion title={'Tambores'} link={'/'} />
-          <ItemSeccion title={'Rotores'} link={'/'} />
-          <ItemSeccion title={'Bombas de Freno'} link={'/'} />
-          <Seccions link="/" icon={ManualTransmision} title="EXTRA" />
-          <ItemSeccion title={'Rines'} link={'/'} />
-          <ItemSeccion title={'Transmisiones'} link={'/'} />
+          {categories.map((category, index)=>{
+            return(
+              <>
+                <Seccions key={index} icon={category.icon} title={category.name}/>
+                {
+                  category.items.map((item,index)=>{
+                    return(
+                      <ItemSeccion key={index} llave={index} title={item.name} link={`/${item.id}`} />
+                    )
+                  })
+                }
+              </>
+            )
+          })}
         </ul>
         <ul className="mb-4 flex flex-col gap-1">
           <li className="mx-3.5 mt-4 mb-2">

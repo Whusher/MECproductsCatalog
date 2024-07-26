@@ -16,7 +16,8 @@ export const AuthProvider = ({ children }) => {
             isSignOut: false,
             nameUser: action.name,
             emailUser: action.email,
-            rol: action.rol
+            rol: action.rol,
+            whatsapp: action.whatsapp
           };
         case "SIGN_OUT":
           return {
@@ -24,6 +25,7 @@ export const AuthProvider = ({ children }) => {
             userToken: null,
             emailUser: null,
             isSignOut: true,
+            whatsapp: null,
             rol: null,
           };
         case "RESTORE_TOKEN":
@@ -41,6 +43,7 @@ export const AuthProvider = ({ children }) => {
       nameUser: null,
       emailUser: null,
       rol: null,
+      whatsapp: null,
       isSignOut: false,
       isLoading: true,
     }
@@ -72,13 +75,15 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem("userName", data.name);
             localStorage.setItem("userEmail", data.email);
             localStorage.setItem("rol", data.rol);
+            localStorage.setItem("whatsapp",data.whatsapp)
             // Despachamos el estado cuando se cumpla el inicio de sesión según la API
             dispatch({
               type: "SIGN_IN",
               token: data.token,
               email: data.email,
               name: data.name,
-              rol: data.rol
+              rol: data.rol,
+              whatsapp: data.whatsapp
             });
             return true;
           } else {
@@ -95,6 +100,7 @@ export const AuthProvider = ({ children }) => {
         // Logica para el cierre de sesion
         localStorage.removeItem("userToken");
         localStorage.removeItem("userName");
+        localStorage.removeItem("whatsapp");
         localStorage.removeItem("userEmail");
         localStorage.removeItem("rol")
         dispatch({ type: "SIGN_OUT" });
@@ -151,6 +157,7 @@ export const AuthProvider = ({ children }) => {
         const name = localStorage.getItem("userName");
         const email = localStorage.getItem("userEmail");
         const rol = localStorage.getItem('rol');
+        const whatsapp = localStorage.getItem('whatsapp')
         if (token) {
           // Update the state with restored token
           dispatch({
@@ -162,7 +169,8 @@ export const AuthProvider = ({ children }) => {
             token: token,
             name: name,
             email: email,
-            rol: rol
+            rol: rol,
+            whatsapp: whatsapp
           });
         } else {
           throw new Error("Token not found");

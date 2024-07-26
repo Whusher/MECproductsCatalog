@@ -11,8 +11,9 @@ function App(){
   const {state} = useAuth();
   return(
   <Router>
-    <Routes >
-        <Route path='/' element={<MainView/>} />
+    <Routes>
+        <Route path='/1' element={<MainView/>} />
+        <Route path='/:category' element={<MainView/>} />
         {/* Manejo del ruteo dinamico de los productos :id */}
         <Route path='/product/:id' element={<ProductSpec/>} />
         <Route path='/login' element={<Login/>}/>

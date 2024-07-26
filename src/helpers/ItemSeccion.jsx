@@ -1,8 +1,8 @@
-
-export default function ItemSeccion({link, title}) {
+import { Link } from "react-router-dom";
+export default function ItemSeccion({link, title, llave}) {
   return (
-    <li>
-      <a aria-current="page" className="active" to={link}> {/*Aqui debe de ir un Link*/}
+    <li key={llave}>
+      <Link aria-current="page" className="active" to={link}> {/*Aqui debe de ir un Link*/}
         <button
           className="middle none  font-bold center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 rounded-lg  text-white 
                     hover:bg-gradient-to-tr hover:from-contrast to-blacks
@@ -13,7 +13,7 @@ export default function ItemSeccion({link, title}) {
            {title}
           </p>
         </button>
-      </a>
+      </Link>
     </li>
   );
 }
