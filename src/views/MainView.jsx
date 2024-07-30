@@ -6,27 +6,29 @@ import SectionMain from '../components/filters/SectionMain';
 import { BarMenu } from '../utils/Icons';
 import { ProductServices } from '../components/Endpoints';
 import { useParams } from 'react-router-dom';
+import { useBrands } from '../context/SellerContext';
 
 function MainView() {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const categoryId = useParams(); // Obtener categoryId de la URL
 
+  //Get the user
+  const {state} = useBrands();
+
   const toggleSideBar = () => {
     setIsSideBarOpen(prev => !prev);
-    console.log(isSideBarOpen);
   };
 
   const getProducts = async () => {
-    console.log(categoryId.category)
     try {
-      const response = await fetch(`${ProductServices}/getProducts/${categoryId.category}`, {
+      const response = await fetch(`${ProductServices}/getProducts/${categoryId.category?? 1}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          user: "a7588cee-3b3e-11ef-9913-08bfb870b1d5"
+          user: state.currentBrand
         })
       });
 

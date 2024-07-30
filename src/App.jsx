@@ -12,6 +12,7 @@ function App(){
   return(
   <Router>
     <Routes>
+        <Route path='/' element={<MainView/>} />
         <Route path='/1' element={<MainView/>} />
         <Route path='/:category' element={<MainView/>} />
         {/* Manejo del ruteo dinamico de los productos :id */}

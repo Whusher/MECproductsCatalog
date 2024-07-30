@@ -22,7 +22,7 @@ export default function SellerContext({ children }) {
         return prevState;
     }
   }, {
-    currentBrand: null,
+    currentBrand: '8a491df5-4a36-11ef-a8c2-08bfb870b1d5',
     availableBrands: [], // Asegúrate de que el valor inicial es un array vacío
   });
 
@@ -34,6 +34,8 @@ export default function SellerContext({ children }) {
         type: 'CHANGE',
         newBrand: newBrand,
       });
+      //put the brand in local storage
+      localStorage.setItem('brand',newBrand);
     },
   }), [state]);
 
@@ -58,6 +60,8 @@ export default function SellerContext({ children }) {
       }
     };
     getBrandsAPI();
+    //Need put and localstorage with the brand by default
+    localStorage.setItem('brand','8a491df5-4a36-11ef-a8c2-08bfb870b1d5')
   }, []);
 
   return (

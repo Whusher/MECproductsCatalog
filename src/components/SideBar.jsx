@@ -8,24 +8,30 @@ export default function SideBar({ isOpen, toggleSideBar}) {
     { name: 'Motor', icon: Engine ,items: [
       { name: 'Cabezas de motor', id: 1 },
       { name: 'Arboles de levas', id: 2 },
-      { name: 'Alternadores', id: 3 },
-      { name: 'Cigueñales', id: 4 },
-      { name: 'Volantes de motor', id: 5 }
+      { name: 'Cigueñales', id: 3 },
+      { name: 'Bielas', id: 4 },
     ]},
-    { name: 'Carroceria', icon: Car ,items: [
-      { name: 'Amortiguadores', id: 6 },
-      { name: 'Suspension completa', id: 7 },
-      { name: 'Flechas', id: 8 },
-      { name: 'Horquillas', id: 9 }
+    { name: 'Frenos y Suspension', icon: Car ,items: [
+      { name: 'Discos y rotores', id: 5 },
+      { name: 'Balatas nuevas', id: 6 },
+      { name: 'Suspension Completa', id: 7 }
     ]},
-    { name: 'Frenos', icon: Tacometer ,items: [
-      { name: 'Tambores', id: 10 },
-      { name: 'Rotores', id: 11 },
-      { name: 'Bombas de Freno', id: 12 }
+    { name: 'Carroceria', icon: Tacometer ,items: [
+      { name: 'Facias', id: 8 },
+      { name: 'Salpicaderas', id: 9 },
+      { name: 'Faros y calaveras', id: 10 }
     ]},
-    { name: 'Extra', icon: ManualTransmision ,items: [
-      { name: 'Rines', id: 13 },
-      { name: 'Transmisiones', id: 14 }
+    { name: 'Otras Categorias', icon: ManualTransmision ,items: [
+      { id: 11, name: "Salud y deportes", description: null },
+      { id: 12, name: "Hogar y muebles", description: null },
+      { id: 13, name: "Mujer y Belleza", description: null },
+      { id: 14, name: "Herramienta", description: null },
+      { id: 15, name: "Tecnologia y celulares", description: null },
+      { id: 16, name: "Bebes y Juguetes", description: null },
+      { id: 17, name: "Autos y Casas", description: null },
+      { id: 18, name: "Ropa y joyeria", description: null },
+      { id: 19, name: "Animales y plantas", description: null },
+      { id: 20, name: "Musica y arte", description: null },
     ]}
   ];
 
