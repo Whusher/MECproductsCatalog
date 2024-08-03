@@ -6,6 +6,8 @@ import Login from './views/auth/Login';
 //import CrudLayout from './views/admin/CrudLayout';
 import UploadImage from './views/UploadImage';
 import NewProduct from './views/admin/NewProduct';
+import NewSeller from './views/admin/NewSeller';
+import WelcomeUser from './views/admin/WelcomeUser'
 import { useAuth } from './context/AuthContext';
 function App(){
   const {state} = useAuth();
@@ -21,7 +23,9 @@ function App(){
         {state.rol == 'admin' ?
         (<>
           <Route path='/crud' element={<UploadImage/>}/>
+          <Route path='/welcome' element={<WelcomeUser/>}/>
           <Route path='/admin' element={<NewProduct/>}/>
+          <Route path='/sellers' element={<NewSeller/>}/>          
         </>)
         :(<>
           

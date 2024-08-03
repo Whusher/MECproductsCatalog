@@ -17,7 +17,7 @@ export default function Login() {
   const handleSubmit = async()=>{
     const response = await signIn(formData);
     if(response){
-      navigate('/admin');
+      navigate('/welcome');
     }
   }
 

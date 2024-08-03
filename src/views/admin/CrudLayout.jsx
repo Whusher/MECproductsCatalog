@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { Link } from 'react-router-dom';
 
 const CrudLayout = ({child}) => {
   const {state, signOut} = useAuth();
@@ -47,6 +48,7 @@ const CrudLayout = ({child}) => {
     {
       name: "Inicio",
       svg: (
+        <Link to="/welcome">
         <svg
           width="18"
           height="18"
@@ -66,6 +68,7 @@ const CrudLayout = ({child}) => {
             d="M6 9C6 8.58579 6.33579 8.25 6.75 8.25H11.25C11.6642 8.25 12 8.58579 12 9V16.5C12 16.9142 11.6642 17.25 11.25 17.25C10.8358 17.25 10.5 16.9142 10.5 16.5V9.75H7.5V16.5C7.5 16.9142 7.16421 17.25 6.75 17.25C6.33579 17.25 6 16.9142 6 16.5V9Z"
           />
         </svg>
+        </Link>
       ),
     },
     {
@@ -105,6 +108,7 @@ const CrudLayout = ({child}) => {
     {
       name: "Gestion de Productos",
       svg: (
+        <Link to="/admin">
         <svg
           width="18"
           height="18"
@@ -129,6 +133,7 @@ const CrudLayout = ({child}) => {
             d="M9 8.25C9.41421 8.25 9.75 8.58579 9.75 9V16.56C9.75 16.9742 9.41421 17.31 9 17.31C8.58579 17.31 8.25 16.9742 8.25 16.56V9C8.25 8.58579 8.58579 8.25 9 8.25Z"
           />
         </svg>
+        </Link>
       ),
     },
     {
@@ -162,8 +167,30 @@ const CrudLayout = ({child}) => {
     },
     state.rol === 'admin' &&
     {
-      name: "Creacion de Usuarios"
-    } 
+      name: "Creación de usuarios",
+      svg: (
+        <Link to="/sellers">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="group-hover:fill-[#4F80E1] fill-[#637381]"
+            strokeWidth="1.5"
+            stroke="#2c3e50"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+            <path d="M16 19h6" />
+            <path d="M19 16v6" />
+            <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
+          </svg>
+        </Link>
+      ),
+    }, 
   ];
   return (
     <div className="min-h-[100vh] bg-[#F6F8FA] w-full nourd-text admin-dashboard">
