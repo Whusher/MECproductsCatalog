@@ -69,6 +69,7 @@ export const AuthProvider = ({ children }) => {
             }),
           });
           if (response.ok) {
+            console.log(response)
             const data = await response.json();
             // Almacenamos datos del token en localStorage
             localStorage.setItem("userToken", data.token);
@@ -85,7 +86,9 @@ export const AuthProvider = ({ children }) => {
               rol: data.rol,
               whatsapp: data.whatsapp
             });
-            return true;
+            //return true;
+            return data;
+            
           } else {
             // const errorData = await response.json();
             // console.error("Error:", errorData.message);

@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 
 export default function SideBar({ isOpen, toggleSideBar}) {
   const categories = [
-    { name: 'Motor', icon: Engine ,items: [
+    { name: 'Motor', icon: Engine ,items: 
+      [
       { name: 'Cabezas de motor', id: 1 },
       { name: 'Arboles de levas', id: 2 },
       { name: 'Cigueñales', id: 3 },
@@ -46,14 +47,15 @@ export default function SideBar({ isOpen, toggleSideBar}) {
       <div className="m-4">
         <h3 className="font-semibold text-2xl tracking-wider text-white font-elegant">SECCIONES</h3>
         <ul className="mb-4 flex flex-col gap-0">
-          {categories.map((category, index)=>{
+          {categories.map((category, i)=>{
+            
             return(
               <>
-                <Seccions key={index} icon={category.icon} title={category.name}/>
+                <Seccions key={i} icon={category.icon} title={category.name}/>                
                 {
-                  category.items.map((item,index)=>{
+                  category.items.map((item,j)=>{
                     return(
-                      <ItemSeccion key={index} llave={index} title={item.name} link={`/${item.id}`} />
+                      <ItemSeccion key={j} llave={j} title={item.name} link={`/${item.id}`} />
                     )
                   })
                 }

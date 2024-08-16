@@ -8,6 +8,7 @@ import UploadImage from './views/UploadImage';
 import NewProduct from './views/admin/NewProduct';
 import NewSeller from './views/admin/NewSeller';
 import WelcomeUser from './views/admin/WelcomeUser'
+import NewSale from './views/admin/NewSale';
 import { useAuth } from './context/AuthContext';
 function App(){
   const {state} = useAuth();
@@ -20,12 +21,13 @@ function App(){
         {/* Manejo del ruteo dinamico de los productos :id */}
         <Route path='/product/:id' element={<ProductSpec/>} />
         <Route path='/login' element={<Login/>}/>
-        {state.rol == 'admin' ?
+        {state.rol == 'seller' || state.rol == 'admin'?
         (<>
           <Route path='/crud' element={<UploadImage/>}/>
           <Route path='/welcome' element={<WelcomeUser/>}/>
-          <Route path='/admin' element={<NewProduct/>}/>
-          <Route path='/sellers' element={<NewSeller/>}/>          
+          <Route path='/products' element={<NewProduct/>}/>
+          <Route path='/sellers' element={<NewSeller/>}/>
+          <Route path='/sales' element={<NewSale/>}/>           
         </>)
         :(<>
           

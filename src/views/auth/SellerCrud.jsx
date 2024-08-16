@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaTrashAlt } from 'react-icons/fa';
 import { UserServices } from "../../components/Endpoints";
 
@@ -10,27 +10,30 @@ const initialUserForm = {
   whatsappNumber: '',
 };
 
-const initialUsers = [
-  {
-    email: 'MecanicoExpress@mail.com',
-    rol: 'Admin',
-    password: 'delunoaltres',
-    enterpriseName: 'Empresa Principal',
-    whatsappNumber: '4421110023',
-  },
-  {
-    email: 'ricardo@mail.com',
-    rol: 'Seller',
-    password: 'aquenoadivinas',
-    enterpriseName: 'RTawer',
-    whatsappNumber: '4428803727',
-  },
-];
-
 const UserCRUD = () => {
   const [userForm, setUserForm] = useState(initialUserForm);
   const [showForm, setShowForm] = useState(false);
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch(`${UserServices}/getAllUsers`);
+      const data = await response.json();
+
+      // Accede a data.data, que es donde se encuentran los usuarios
+    if (data.success) {
+      setUsers(data.data); // Usar data.data
+    } else {
+      console.error("Error al obtener los usuarios:", data.message);
+    }
+  } catch (error) {
+    console.error("Hubo un problema con la solicitud Fetch:", error);
+  }
+};
 
   const handleChange = (e) => {
     setUserForm({ ...userForm, [e.target.name]: e.target.value });
@@ -47,10 +50,9 @@ const UserCRUD = () => {
         body: JSON.stringify(userForm),
       });
       if (response.ok) {
-        const data = await response.json();
-        console.log(data);
+        const newUser = await response.json();
         alert('Usuario Agregado Correctamente');
-        setUsers([...users, userForm]);
+        setUsers([...users, newUser]);
         setUserForm(initialUserForm);
         setShowForm(false);
       } else {
@@ -63,9 +65,17 @@ const UserCRUD = () => {
     }
   };
 
-  const handleDeleteUser = (index) => {
-    const updatedUsers = users.filter((_, i) => i !== index);
-    setUsers(updatedUsers);
+  const handleDeleteUser = async (index) => {
+    try {
+      const response = await fetch(`${UserServices}/deleteUser/${users[index].id}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        setUsers(users.filter((_, i) => i !== index));
+      }
+    } catch (error) {
+      console.error('Error al eliminar el usuario:', error);
+    }
   };
 
   const toggleForm = () => {
@@ -74,14 +84,14 @@ const UserCRUD = () => {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <h2 className="text-3xl font-bold mb-6">Administrar Usuarios</h2>
+      <h2 className="text-3xl font-bold mb-6 text-gray-800">Administrar Usuarios</h2>
       <button
         className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-lg shadow mb-6"
         onClick={toggleForm}
       >
         {showForm ? 'Ocultar Formulario' : 'Nuevo Usuario'}
       </button>
-
+  
       {showForm && (
         <div className="bg-white shadow-md rounded-lg p-6 mb-6">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -96,7 +106,7 @@ const UserCRUD = () => {
                 onChange={handleChange}
               />
             </div>
-
+  
             <div className="flex flex-col">
               <label className="text-gray-700 font-semibold">Rol</label>
               <input
@@ -108,7 +118,7 @@ const UserCRUD = () => {
                 onChange={handleChange}
               />
             </div>
-
+  
             <div className="flex flex-col">
               <label className="text-gray-700 font-semibold">Contraseña</label>
               <input
@@ -120,7 +130,7 @@ const UserCRUD = () => {
                 onChange={handleChange}
               />
             </div>
-
+  
             <div className="flex flex-col">
               <label className="text-gray-700 font-semibold">Nombre de Empresa</label>
               <input
@@ -132,7 +142,7 @@ const UserCRUD = () => {
                 onChange={handleChange}
               />
             </div>
-
+  
             <div className="flex flex-col">
               <label className="text-gray-700 font-semibold">Número de WhatsApp</label>
               <input
@@ -153,31 +163,38 @@ const UserCRUD = () => {
           </button>
         </div>
       )}
-
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {users.map((user, index) => (
-          <div key={index} className="bg-white shadow-md rounded-lg p-6">
-            <h3 className="text-lg font-bold mb-4">{user.email}</h3>
-            <p>
-              <span className="font-semibold">Rol:</span> {user.rol}
-            </p>
-            <p>
-              <span className="font-semibold">Nombre de Empresa:</span> {user.enterpriseName}
-            </p>
-            <p>
-              <span className="font-semibold">Número de WhatsApp:</span> {user.whatsappNumber}
-            </p>
-            <button
-              className="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-4 rounded-lg shadow mt-4"
-              onClick={() => handleDeleteUser(index)}
-            >
-              <FaTrashAlt />
-            </button>
-          </div>
-        ))}
-      </div>
+  
+      <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <thead className="bg-blue-600 text-white">
+          <tr>
+            <th className="py-3 px-4 text-left">Correo</th>
+            <th className="py-3 px-4 text-left">Rol</th>
+            <th className="py-3 px-4 text-left">Nombre de Empresa</th>
+            <th className="py-3 px-4 text-left">Número de WhatsApp</th>
+            <th className="py-3 px-4 text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user, index) => (
+            <tr key={user.id || index} className="border-b hover:bg-gray-100">
+              <td className="py-3 px-4">{user.email}</td>
+              <td className="py-3 px-4">{user.rol}</td>
+              <td className="py-3 px-4">{user.enterpriseName}</td>
+              <td className="py-3 px-4">{user.whatsappNumber}</td>
+              <td className="py-3 px-4 text-center">
+                <button
+                  className="text-red-600 hover:text-red-500"
+                  onClick={() => handleDeleteUser(index)}
+                >
+                  <FaTrashAlt />
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
-};
+}
 
 export default UserCRUD;
