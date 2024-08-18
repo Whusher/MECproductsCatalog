@@ -25,3 +25,5 @@ dist-ssr
 
 #Ignore Firebase config
 src/helpers/firebase/Config.*
+src/components/Endpoints.jsx
+src/components/Endpoints.jsx

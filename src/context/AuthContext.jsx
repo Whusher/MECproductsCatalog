@@ -54,9 +54,6 @@ export const AuthProvider = ({ children }) => {
       state,
       signIn: async (loginData) => {
         try {
-          // Mostramos la data que nos llega desde el formulario
-          console.log("Login data:", loginData);
-
           // Hacer la petición a la API
           const response = await fetch(`${AuthService}/login`, {
             method: "POST",
@@ -69,7 +66,6 @@ export const AuthProvider = ({ children }) => {
             }),
           });
           if (response.ok) {
-            console.log(response)
             const data = await response.json();
             // Almacenamos datos del token en localStorage
             localStorage.setItem("userToken", data.token);
@@ -179,7 +175,7 @@ export const AuthProvider = ({ children }) => {
           throw new Error("Token not found");
         }
       } catch (error) {
-        console.log("Session not available to restore", error);
+        return null;
       }
     };
 

@@ -7,32 +7,33 @@ export default function SideBar({ isOpen, toggleSideBar}) {
   const categories = [
     { name: 'Motor', icon: Engine ,items: 
       [
-      { name: 'Cabezas de motor', id: 1 },
-      { name: 'Arboles de levas', id: 2 },
-      { name: 'Cigueñales', id: 3 },
-      { name: 'Bielas', id: 4 },
+      { name: 'Cabezas de motor', id: '1' },
+      { name: 'Arboles de levas', id: '2' },
+      { name: 'Cigueñales', id: '3' },
+      { name: 'Bielas', id: '4' },
     ]},
     { name: 'Frenos y Suspension', icon: Car ,items: [
-      { name: 'Discos y rotores', id: 5 },
-      { name: 'Balatas nuevas', id: 6 },
-      { name: 'Suspension Completa', id: 7 }
+      { name: 'Discos y rotores', id: '5' },
+      { name: 'Balatas nuevas', id: '6' },
+      { name: 'Suspension Completa', id: '7' }
     ]},
     { name: 'Carroceria', icon: Tacometer ,items: [
-      { name: 'Facias', id: 8 },
-      { name: 'Salpicaderas', id: 9 },
-      { name: 'Faros y calaveras', id: 10 }
+      { name: 'Facias', id: '8' },
+      { name: 'Salpicaderas', id: '9' },
+      { name: 'Faros y calaveras', id: '10' },
+      { name: 'Otros', id: '21' }
     ]},
     { name: 'Otras Categorias', icon: ManualTransmision ,items: [
-      { id: 11, name: "Salud y deportes", description: null },
-      { id: 12, name: "Hogar y muebles", description: null },
-      { id: 13, name: "Mujer y Belleza", description: null },
-      { id: 14, name: "Herramienta", description: null },
-      { id: 15, name: "Tecnologia y celulares", description: null },
-      { id: 16, name: "Bebes y Juguetes", description: null },
-      { id: 17, name: "Autos y Casas", description: null },
-      { id: 18, name: "Ropa y joyeria", description: null },
-      { id: 19, name: "Animales y plantas", description: null },
-      { id: 20, name: "Musica y arte", description: null },
+      { id: '11', name: "Salud y deportes", description: null },
+      { id: '12', name: "Hogar y muebles", description: null },
+      { id: '13', name: "Mujer y Belleza", description: null },
+      { id: '14', name: "Herramienta", description: null },
+      { id: '15', name: "Tecnologia y celulares", description: null },
+      { id: '16', name: "Bebes y Juguetes", description: null },
+      { id: '17', name: "Autos y Casas", description: null },
+      { id: '18', name: "Ropa y joyeria", description: null },
+      { id: '19', name: "Animales y plantas", description: null },
+      { id: '20', name: "Musica y arte", description: null },
     ]}
   ];
 
@@ -51,11 +52,11 @@ export default function SideBar({ isOpen, toggleSideBar}) {
             
             return(
               <>
-                <Seccions key={i} icon={category.icon} title={category.name}/>                
+                <Seccions llave={i+1} icon={category.icon} title={category.name}/>                
                 {
                   category.items.map((item,j)=>{
                     return(
-                      <ItemSeccion key={j} llave={j} title={item.name} link={`/${item.id}`} />
+                      <ItemSeccion key={j+2} llave={j} title={item.name} link={`/${item.id}`} />
                     )
                   })
                 }

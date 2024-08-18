@@ -1,10 +1,8 @@
-import { useState } from "react";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import { subirImagen,borrarImagen } from "../../helpers/firebase/Config";
+import { useEffect, useState } from "react";
+import { FaTrashAlt } from "react-icons/fa";
+import { subirImagen,borrarImagen, borrarImagenPorUrl } from "../../helpers/firebase/Config";
 import { useAuth } from "../../context/AuthContext";
 import { ProductServices } from "../../components/Endpoints";
-
-
 
 const CATEGORIES =[
     { name: 'Cabezas de motor', id: 1 },
@@ -49,73 +47,16 @@ function ProductCRUD() {
       motorCompatibility: '',
       modelCompatibility: '',
       facebookUri: "",
-      whatsappUri: "4422380901", //Get from context provider
+      whatsappUri: state.whatsapp, //Get from context provider
     };
   }
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      name: "Tapa de válvulas Chevrolet",
-      price: "5000",
-      images: [
-        "https://th.bing.com/th/id/OIP.L__fAlarvjLWWrsKNyI4WQHaDA?rs=1&pid=ImgDetMain",
-      ],
-      offer: false,
-      desc: "Producto hecho bla bla bla bla para tener calidad el el motor etc",
-      marca: "Chevrolet Performance",
-      modelAplicativo: ["Opel", "Astra", "Chevy"],
-      motorAplicativo: ["1.0L", "1.8L"],
-      anioAplicacion: "2004-2010",
-    },
-    {
-      id: 2,
-      name: "Juego de Discos de Freno Brembo",
-      price: "8000",
-      images: [
-        "https://m.media-amazon.com/images/I/51pubrGhFYL._SR290,290_.jpg",
-      ],
-      offer: true,
-      desc: "Discos de freno de alta calidad para un rendimiento óptimo de frenado en condiciones extremas.",
-      marca: "Brembo",
-      modelAplicativo: ["Audi", "BMW", "Mercedes"],
-      motorAplicativo: ["2.0T", "3.0T"],
-      anioAplicacion: "2015-2022",
-    },
-    {
-      id: 3,
-      name: "Neumáticos Michelin Pilot Sport 4S",
-      price: "12000",
-      images: [
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzVNB8wf0rA_ayvbEHmrBVcBpmeyxA0M_ByQ&s",
-      ],
-      offer: false,
-      desc: "Neumáticos de alto rendimiento para condiciones de carretera seca y mojada.",
-      marca: "Michelin",
-      modelAplicativo: ["Porsche", "Ferrari", "Lamborghini"],
-      motorAplicativo: ["4.0L V8", "3.0L V6"],
-      anioAplicacion: "2018-2023",
-    },
-    {
-      id: 4,
-      name: "Aceite Sintético Mobil 1 5W-30",
-      price: "350",
-      images: [
-        "https://contentinfo.autozone.com/znetcs/product-info/es/MX/mob/124999/image/8/",
-      ],
-      offer: true,
-      desc: "Aceite sintético de alto rendimiento para motores de gasolina y diésel.",
-      marca: "Mobil 1",
-      modelAplicativo: ["Toyota", "Honda", "Ford"],
-      motorAplicativo: ["1.6L", "2.0L"],
-      anioAplicacion: "2010-2025",
-    },
-  ]);
   //Context get
   const {state} = useAuth();
 
   //Real necessary states
   const [productForm, setProductForm] = useState(initializeForm());
   const [showForm, setShowForm] = useState(false);
+  const [currentProducts,setCurrentProducts] = useState([]);
   const [deleteReference, setDeleteReference] = useState({
     image1:'',
     image2: '',
@@ -128,7 +69,6 @@ function ProductCRUD() {
   });
 
   const handlePresubmit = async() => {
-    console.log(productForm);
     try{
       const response = await fetch(`${ProductServices}/addProduct`,{
         method: 'POST',
@@ -141,6 +81,7 @@ function ProductCRUD() {
         const data = await response.json();
         console.log(data);
         alert('Producto Agregado Correctamente');
+        window.location.reload();
       }else{
         console.log('Something went wrong');
       }
@@ -183,9 +124,43 @@ function ProductCRUD() {
   };
 
 
-  const handleDeleteProduct = (index) => {
-    const updatedProducts = products.filter((_, i) => i !== index);
-    setProducts(updatedProducts);
+  const handleDeleteProduct = async(id,mainImageURL) => {
+    console.log(mainImageURL)
+    console.log(id)
+    //First get all the images 
+    try{
+      let response = await fetch(`${ProductServices}/individualProduct/${id}`,{
+        method: 'GET',
+        headers:{
+          'Content-Type': 'application/json'
+        }
+      })
+      if(response.ok){
+        const individualProduct = await response.json();
+        console.log(individualProduct);
+        //Comenzar eliminacion de imagenes
+        if(mainImageURL)
+        console.log(await borrarImagenPorUrl(mainImageURL));
+        if(individualProduct.second)
+        console.log(await borrarImagenPorUrl(individualProduct.second));
+        if(individualProduct.third)
+        console.log(await borrarImagenPorUrl(individualProduct.third));
+        //mandar la eliminacion del producto en la BD
+        const res = await fetch(`${ProductServices}/dropProduct`,{
+          method: 'POST',
+          headers:{
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({id: id})
+        })
+        if(res.ok){
+          alert('Producto Eliminado Correctamente');
+          window.location.reload();
+        }
+      }
+    }catch(e){
+      console.log(e);
+    }
   };
 
   const handleDeleteImage = async(imageIndex) =>{
@@ -246,6 +221,35 @@ function ProductCRUD() {
   const toggleForm = () => {
     setShowForm(!showForm);
   };
+
+   // Función para obtener productos
+   const getProducts = async () => {
+    try {
+      const response = await fetch(`${ProductServices}/getProducts/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user: state.userToken
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      setCurrentProducts(data); // Actualiza el estado con los productos obtenidos
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
+
+  // useEffect para llamar a getProducts cuando se monte el componente o cambie categoryId
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   return (
     <div className=" mx-auto">
@@ -456,7 +460,6 @@ function ProductCRUD() {
             <th className="py-2 px-4 bg-blue-800 text-white">Precio</th>
             <th className="py-2 px-4 bg-blue-800 text-white">Imágenes</th>
             <th className="py-2 px-4 bg-blue-800 text-white">Oferta</th>
-            <th className="py-2 px-4 bg-blue-800 text-white">Descripción</th>
             <th className="py-2 px-4 bg-blue-800 text-white">Marca</th>
             <th className="py-2 px-4 bg-blue-800 text-white">
               Modelos Aplicativos
@@ -471,22 +474,20 @@ function ProductCRUD() {
           </tr>
         </thead>
         <tbody>
-          {products.map((product, index) => (
+          {currentProducts.map((product, index) => (
             <tr key={product.id}>
-              <td className="border px-4 py-2">{product.name}</td>
+              <td className="border px-4 py-2">{product.title}</td>
               <td className="border px-4 py-2">${product.price}</td>
               <td className="border px-4 py-2">
-                {product.images.map((img, idx) => (
                   <img
-                    key={idx}
-                    src={img}
-                    alt={`Product ${idx}`}
+                    key={index}
+                    src={product.photo}
+                    alt={`Product ${index}`}
                     className="w-16 h-16 object-cover inline-block m-1 rounded-lg shadow"
                   />
-                ))}
               </td>
               <td className="border px-4 py-2">
-                {product.offer ? (
+                {product.offert ? (
                   <span className="bg-green-200 text-green-800 px-2 py-1 rounded-full text-sm font-semibold">
                     Sí
                   </span>
@@ -496,25 +497,18 @@ function ProductCRUD() {
                   </span>
                 )}
               </td>
-              <td className="border px-4 py-2">{product.desc}</td>
-              <td className="border px-4 py-2">{product.marca}</td>
+              <td className="border px-4 py-2">{product.brandID}</td>
               <td className="border px-4 py-2">
-                {product.modelAplicativo.join(", ")}
+                {product.modelCompatibility}
               </td>
               <td className="border px-4 py-2">
-                {product.motorAplicativo.join(", ")}
+                {product.motorCompatibility}
               </td>
-              <td className="border px-4 py-2">{product.anioAplicacion}</td>
-              <td className="border px-4 py-2">
-                <button
-                  className="text-indigo-600 hover:text-indigo-900 mr-4"
-                  onClick={() => {}}
-                >
-                  <FaEdit className="text-2xl" />
-                </button>
+              <td className="border px-4 py-2">{product.anioInCompt} - {product.anioOutCompt}</td>
+              <td className="border px-4 py-2 text-center">
                 <button
                   className="text-red-600 hover:text-red-900"
-                  onClick={() => handleDeleteProduct(index)}
+                  onClick={() => handleDeleteProduct(product.id,product.photo)}
                 >
                   <FaTrashAlt className="text-2xl" />
                 </button>

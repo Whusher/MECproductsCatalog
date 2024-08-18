@@ -13,11 +13,12 @@ import { useAuth } from './context/AuthContext';
 function App(){
   const {state} = useAuth();
   return(
-  <Router>
+  <Router basename='/catalogo'>
     <Routes>
-        <Route path='/' element={<MainView/>} />
-        <Route path='/1' element={<MainView/>} />
-        <Route path='/:category' element={<MainView/>} />
+        <Route path="/" element={<MainView />} />
+        <Route path=":category" element={<MainView />} />
+        {/* <Route path='/' element={<MainView/>} />
+        <Route path='/catalogo/:category' element={<MainView/>} /> */}
         {/* Manejo del ruteo dinamico de los productos :id */}
         <Route path='/product/:id' element={<ProductSpec/>} />
         <Route path='/login' element={<Login/>}/>
