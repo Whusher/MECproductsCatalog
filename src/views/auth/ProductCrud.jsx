@@ -25,6 +25,7 @@ const CATEGORIES =[
     { id: 18, name: "Ropa y joyeria", description: null },
     { id: 19, name: "Animales y plantas", description: null },
     { id: 20, name: "Musica y arte", description: null },
+    {id: 21, name: "Otros", description: null}
 ];
 
 function ProductCRUD() {
@@ -138,13 +139,6 @@ function ProductCRUD() {
       if(response.ok){
         const individualProduct = await response.json();
         console.log(individualProduct);
-        //Comenzar eliminacion de imagenes
-        if(mainImageURL)
-        console.log(await borrarImagenPorUrl(mainImageURL));
-        if(individualProduct.second)
-        console.log(await borrarImagenPorUrl(individualProduct.second));
-        if(individualProduct.third)
-        console.log(await borrarImagenPorUrl(individualProduct.third));
         //mandar la eliminacion del producto en la BD
         const res = await fetch(`${ProductServices}/dropProduct`,{
           method: 'POST',
@@ -157,6 +151,13 @@ function ProductCRUD() {
           alert('Producto Eliminado Correctamente');
           window.location.reload();
         }
+        //Comenzar eliminacion de imagenes de fireBASE
+        if(mainImageURL)
+          console.log(await borrarImagenPorUrl(mainImageURL));
+          if(individualProduct.second)
+          console.log(await borrarImagenPorUrl(individualProduct.second));
+          if(individualProduct.third)
+          console.log(await borrarImagenPorUrl(individualProduct.third));
       }
     }catch(e){
       console.log(e);

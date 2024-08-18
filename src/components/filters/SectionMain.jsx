@@ -26,7 +26,79 @@ const modelos = [
   "Fiesta",
   "Sentra",
   "Altima",
+  "Elantra",
+  "Sonata",
+  "Kona",
+  "Soul",
+  "Tucson",
+  "Rav4",
+  "Highlander",
+  "CR-V",
+  "Pilot",
+  "Cherokee",
+  "Grand Cherokee",
+  "Wrangler",
+  "Durango",
+  "Pathfinder",
+  "Rogue",
+  "Murano",
+  "Qashqai",
+  "350Z",
+  "370Z",
+  "Mustang",
+  "Camaro",
+  "Charger",
+  "Challenger",
+  "Altima",
+  "Mazda3",
+  "Mazda6",
+  "CX-5",
+  "CX-9",
+  "Sorrento",
+  "Sportage",
+  "Niro",
+  "Optima",
+  "Rio",
+  "F-150",
+  "Ranger",
+  "Stinger",
+  "Eclipse",
+  "Lancer",
+  "Outlander",
+  "RAV4",
+  "Sienna",
+  "Tacoma",
+  "Tundra",
+  "Hilux",
+  "Land Cruiser",
+  "Amarok",
+  "Tiguan",
+  "Passat",
+  "Arteon",
+  "Golf GTI",
+  "S-Class",
+  "C-Class",
+  "E-Class",
+  "A4",
+  "A6",
+  "Q5",
+  "Q7",
+  "X3",
+  "X5",
+  "X7",
+  "3 Series",
+  "5 Series",
+  "7 Series",
+  "911",
+  "Cayenne",
+  "Panamera",
+  "Macan",
+  "GTI",
+  "911",
+  "718 Cayman",
+  "718 Boxster"
 ];
+
 
 const anios = Array.from({ length: 2024 - 1990 + 1 }, (_, i) => 1990 + i);
 
@@ -142,7 +214,14 @@ export default function SectionMain({ onFilterChange }) {
         </div>
 
         <div id="clear-filters" className="basis-1/4">
-          <button className="text-red-500 flex justify-center space-x-1" onClick={() => onFilterChange({})}>
+          <button className="text-red-500 flex justify-center space-x-1" onClick={() =>{ onFilterChange({})
+            setFilters({
+              brand: '',
+              model: '',
+              anio: '',
+              motor: ''
+            })
+        }}>
             <span className="mx-3">Borrar filtros</span> {Trash()}
           </button>
         </div>
